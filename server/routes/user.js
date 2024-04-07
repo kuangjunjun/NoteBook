@@ -1,5 +1,6 @@
 const Router = require('@koa/router')
 const router = new Router()
+const jwt = require('../utils/jwt.js')
 const { userLogin, userFind, userRegister } = require('../controllers/mysqlControl.js')
 
 // 定义登录接口
@@ -15,9 +16,12 @@ router.post('/login', async (ctx) => {
         nickname: result[0].nickname,
         username: result[0].username
       }
+      let jwtToken = jwt.sign({ id: '1', username: username, admin: true })
+      console.log(jwtToken);
       ctx.body = {
         code: '8000',
         data: data,
+        token: jwtToken,
         msg: '登录成功'
       }
     } else {

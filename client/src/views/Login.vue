@@ -54,9 +54,11 @@ const onSubmit = async() => {
     username: state.username,
     password: state.password
   })
-  // console.log(res);
+  console.log(res);
   // 保存用户信息
-  sessionStorage.setItem('userInfo', JSON.stringify(res.data))
+  // sessionStorage.setItem('userInfo', JSON.stringify(res.data))
+  localStorage.setItem('token', res.token)
+
   router.push('/noteClass')
 }
 

@@ -65,14 +65,14 @@ const whitePath = ['/login', '/register']
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title
 
-  if (!whitePath.includes(to.path)) { // 你想去详情页
-    if (!sessionStorage.getItem('userInfo')) { // 没登录
-      router.push('/login')
-      return
-    }
-    next()
-    return
-  }
+  // if (!whitePath.includes(to.path)) { // 你想去详情页
+  //   if (!sessionStorage.getItem('userInfo')) { // 没登录
+  //     router.push('/login')
+  //     return
+  //   }
+  //   next()
+  //   return
+  // }
   next()
 })
 
