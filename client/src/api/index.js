@@ -9,7 +9,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/json'
 
 // 请求拦截
 axios.interceptors.request.use(config => {
-  let token = localStorage.getItem('token')
+  let token = localStorage.getItem('userInfo')
   if (token) {
       config.headers.Authorization = token
   }

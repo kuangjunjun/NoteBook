@@ -2,11 +2,11 @@ const Router = require('@koa/router')
 const router = new Router()
 const { formateDate } = require('../config/utils.js')
 const { findNoteListByType, findNoteDetailById, notePublish } = require('../controllers/mysqlControl.js')
-const { verify } = require('../utils/jwt.js')
+const jwt = require('../utils/jwt.js')
 
 
 
-router.post('/findNoteListByType', async (ctx) => {
+router.post('/findNoteListByType', jwt.verify(),  async (ctx) => {
   const { note_type } = ctx.request.body
   try {
     const result = await findNoteListByType(note_type)
@@ -24,7 +24,7 @@ router.post('/findNoteListByType', async (ctx) => {
   }
 })
 
-router.post('/findNoteDetailById', verify, async (ctx) => {
+router.post('/findNoteDetailById', jwt.verify(), async (ctx) => {
   const { id } = ctx.request.body
   try {
     const result = await findNoteDetailById(id)
@@ -50,7 +50,7 @@ router.post('/findNoteDetailById', verify, async (ctx) => {
   }
 })
 
-router.post('/publish', verify, async (ctx) =>{
+router.post('/publish', jwt.verify(), async (ctx) =>{
   const {
       note_content,title,head_img,note_type,nickname,userId
   } = ctx.request.body

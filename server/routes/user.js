@@ -17,7 +17,7 @@ router.post('/login', async (ctx) => {
         username: result[0].username
       }
       let jwtToken = jwt.sign({ id: '1', username: username, admin: true })
-      console.log(jwtToken);
+      // console.log(jwtToken);
       ctx.body = {
         code: '8000',
         data: data,

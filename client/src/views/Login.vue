@@ -57,7 +57,7 @@ const onSubmit = async() => {
   console.log(res);
   // 保存用户信息
   // sessionStorage.setItem('userInfo', JSON.stringify(res.data))
-  localStorage.setItem('token', res.token)
+  localStorage.setItem('userInfo', res.token)
 
   router.push('/noteClass')
 }

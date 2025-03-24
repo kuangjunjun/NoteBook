@@ -1,34 +1,43 @@
-const jwt = require('jsonwebtoken')
+const jwt=require('jsonwebtoken')
 
-function sign(option) {
-    return jwt.sign(option, '666', { // '666' 加盐
-        expiresIn: 60 // token的有效时长 s为单位（过期时间）
-    })
+//创建token
+function sign(option){
+    return jwt.sign(option,'666',{
+        expiresIn:'86400'//一天后过期
+    });
 }
-
-const  verify = () => (ctx, next) => {
-    let jwtToken = ctx.req.headers.authorization
-    if (jwtToken) {
-        // 校验
-        jwt.verify(jwtToken, '666', (err, docode) => {
-            if (err) {  // 前端传过来的token有问题
-                ctx.body = {
-                    status: 401,
-                    message: 'token失效'
+//检验token
+function verify(){
+    return async(ctx,next)=>{
+        let jwtToken=ctx.req.headers.authorization;
+        if(jwtToken){
+            //判断token是否合法
+            //const decoded=jwt.verify(jwtToken,'666',)
+            //console.log(decoded)
+            try {
+                const decoded=jwt.verify(jwtToken,'666')
+                if( decoded.id){//合法
+                    ctx.userId=decoded.id
+                   await next()//调用next 去到下一个中间件
                 }
-            } else {
-                next()
+            } catch (e) {
+                ctx.body={
+                status:401,//权限不足
+                msg:'token失效'
+                }
             }
-        })
-    } else {
-        ctx.body = {
-            status: 401,
-            message: '请提供token'
+        }else{
+            ctx.body={
+                status:401,
+                msg:'请提供token'
+            }
         }
     }
 }
 
-module.exports = {
+
+
+module.exports={
     sign,
     verify
 }
